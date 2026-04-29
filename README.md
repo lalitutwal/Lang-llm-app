@@ -1,3 +1,4 @@
+# Pet name generator using langchain
 A lightning-fast name generator built with LangChain and Streamlit, powered by Groq's Llama-3 inference.
 
 Setup
