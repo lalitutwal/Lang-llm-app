@@ -1,32 +1,26 @@
-import os
+import streamlit as st
+import langchain_helper as lch
 
-from dotenv import load_dotenv
-from langchain_groq import ChatGroq
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
+st.title("Name generator for pets")
 
+animal_type = st.sidebar.selectbox("What is your pet?", ("Dog", "Cat", "Hamster", "Rat", "Snake", "Lizard", "Cow"))
 
+animal_labels = {
+    "Dog": "What color is your dog?",
+    "Cat": "What color is your cat?",
+    "Hamster": "What color is your hamster?",
+    "Rat": "What color is your rat?",
+    "Snake": "What color is your snake?",
+    "Lizard": "What color is your lizard?",
+    "Cow": "What color is your cow?",
+}
 
-load_dotenv()
-# Ensure your GROQ_API_KEY environment variable is set
-# Or pass it directly: llm = ChatGroq(api_key="your_key", model="llama-3.3-70b-versatile")
-
-llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
-    temperature=0,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+pet_color = st.sidebar.text_area(
+    label=animal_labels[animal_type],
+    max_chars=15
 )
 
-#
-
-#langchain.chain
-
-messages = [
-    ("system", "You are a helpful assistant."),
-    ( "How fast is Groq's inference?"),
-]
-
-response = llm.invoke(messages)
-print(response.content)
+if pet_color:
+    # Logic is simplified; helper handles the environment variable
+    response = lch.generate_pet_name(animal_type, pet_color)
+    st.text(response['pet_name'])
